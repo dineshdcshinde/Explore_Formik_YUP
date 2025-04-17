@@ -55,7 +55,31 @@ const FeildArrayComp = () => {
           <div className="form-control">
             <label htmlFor="phoneNumbers">Phone Numbers</label>
             <FieldArray name="phoneNumbers">
-              {/* We will let */}
+              {(fieldArrayProps) => {
+                const { values } = fieldArrayProps.form;
+                const { phoneNumbers } = values;
+                const { push, remove } = fieldArrayProps;
+                return phoneNumbers.map((phoneNumbers: number, idx: number) => {
+                  return (
+                    <div key={idx}>
+                      <Field name={`phoneNumbers[${idx}]`} />
+                      <button type="button" onClick={() => push("")}>
+                        +
+                      </button>
+                      {idx > 0 && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            remove(idx);
+                          }}
+                        >
+                          -
+                        </button>
+                      )}
+                    </div>
+                  );
+                });
+              }}
             </FieldArray>
             <ErrorMessage name="phoneNumbers" component={Error} />
           </div>
